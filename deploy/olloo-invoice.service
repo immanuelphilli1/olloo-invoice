@@ -1,0 +1,19 @@
+# /etc/systemd/system/olloo-invoice.service
+#   sudo systemctl enable --now olloo-invoice
+#   journalctl -u olloo-invoice -f
+[Unit]
+Description=olloo invoice API
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=olloo
+WorkingDirectory=/opt/olloo-invoice/server
+# reads /opt/olloo-invoice/server/.env; runs migrations on start, then serves on PORT
+ExecStart=/usr/bin/node --env-file=.env dist/index.js
+Restart=always
+RestartSec=3
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

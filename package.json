@@ -1,0 +1,23 @@
+{
+  "name": "olloo-invoice",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w server & npm run dev -w web",
+    "build": "npm run build -w web && npm run build -w server",
+    "test": "npm test -w shared && npm test -w server",
+    "lint": "npm run lint -w web && npm run typecheck -w server && npm run typecheck -w shared",
+    "db:generate": "npm run db:generate -w server"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vite": "^7.3.7",
+    "vitest": "^4.1.12"
+  }
+}

@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-hand: 'Caveat', cursive;
+}
+
+/* Landing page marquee: two copies of the track slide left together. */
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+.marquee-track {
+  animation: marquee linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/*
+ * Document theming. A sheet sets these custom properties from the business's
+ * DocumentStyle; components layer so Tailwind utilities still win when both apply.
+ */
+@layer components {
+  .doc-sheet {
+    background: var(--doc-paper);
+    color: #000;
+    font-family: var(--doc-body-font);
+    font-size: var(--doc-size);
+  }
+  .doc-heading {
+    font-family: var(--doc-heading-font);
+  }
+  .doc-ink {
+    color: var(--doc-ink);
+    font-family: var(--doc-ink-font);
+  }
+  .doc-rule {
+    border-color: var(--doc-accent);
+  }
+  .doc-shade {
+    background: var(--doc-shade);
+  }
+  .doc-accent-text {
+    color: var(--doc-accent);
+  }
+  .doc-accent-bg {
+    background: var(--doc-accent);
+    color: var(--doc-paper);
+  }
+  .doc-ink-border {
+    border-color: color-mix(in srgb, var(--doc-ink) 45%, transparent);
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #doc-print-area,
+  #doc-print-area * {
+    visibility: visible;
+  }
+
+  #doc-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .doc-sheet {
+    box-shadow: none !important;
+    break-after: page;
+  }
+
+  .doc-sheet:last-child {
+    break-after: auto;
+  }
+}

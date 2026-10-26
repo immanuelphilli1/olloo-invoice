@@ -1,0 +1,8 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+.DS_Store
+# local dev database (PGlite) and uploaded files
+server/.data

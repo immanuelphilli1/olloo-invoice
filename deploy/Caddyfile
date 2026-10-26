@@ -1,0 +1,18 @@
+# /etc/caddy/Caddyfile — Caddy gets and renews the HTTPS certificate automatically.
+invoice.olloo.app {
+	encode zstd gzip
+
+	# API (Hono on :8787)
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8787
+	}
+
+	# Web app (npm run build -w web → web/dist). Unknown paths fall back to index.html for the SPA.
+	handle {
+		root * /opt/olloo-invoice/web/dist
+		try_files {path} /index.html
+		file_server
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+	}
+}
